@@ -3,11 +3,16 @@ import numpy as np
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from skimage import io
+import sys
 
 # Run the 3D face alignment on a test image, without CUDA.
-fa = face_alignment.FaceAlignment(face_alignment.LandmarksType._3D, device='cuda:0', flip_input=True)
+fa = face_alignment.FaceAlignment(face_alignment.LandmarksType._3D,
+                                    device='cuda:0',
+                                    flip_input=True,
+                                    face_detector='sfd',
+                                    verbose=True)
 
-input = io.imread('../test/assets/aflw-test.jpg')
+input = io.imread(sys.argv[1])
 preds = fa.get_landmarks(input)[-1]
 
 #TODO: Make this nice

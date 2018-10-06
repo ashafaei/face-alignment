@@ -153,7 +153,7 @@ class FaceAlignment:
             return None
 
         torch.set_grad_enabled(False)
-        landmarks = []
+        landmarks, bboxes = [], []
         for i, d in enumerate(detected_faces):
             center = torch.FloatTensor(
                 [d[2] - (d[2] - d[0]) / 2.0, d[3] -
@@ -191,8 +191,9 @@ class FaceAlignment:
                     (pts_img, depth_pred * (1.0 / (256.0 / (200.0 * scale)))), 1)
 
             landmarks.append(pts_img.numpy())
+            bboxes.append(d)
 
-        return landmarks
+        return landmarks, bboxes
 
     def get_landmarks_from_directory(self, path, extensions=['.jpg', '.png'], recursive=True, show_progress_bar=True):
         detected_faces = self.face_detector.detect_from_directory(path, extensions, recursive, show_progress_bar)
