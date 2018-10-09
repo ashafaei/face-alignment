@@ -7,7 +7,6 @@ import math
 import numpy as np
 import cv2
 
-
 def _gaussian(
         size=3, sigma=0.25, amplitude=1, normalize=False, width=None,
         height=None, sigma_horz=None, sigma_vert=None, mean_horz=0.5,
@@ -141,7 +140,10 @@ def shuffle_lr(parts, pairs=None):
                  34, 33, 32, 31, 45, 44, 43, 42, 47, 46, 39, 38, 37, 36, 41,
                  40, 54, 53, 52, 51, 50, 49, 48, 59, 58, 57, 56, 55, 64, 63,
                  62, 61, 60, 67, 66, 65]
-    parts = parts[:, pairs, ...]
+    if parts.ndimension() == 3:
+        parts = parts[pairs, ...]
+    else:
+        parts = parts[:, pairs, ...]
 
     return parts
 
@@ -158,8 +160,6 @@ def flip(tensor, is_label=False):
     return tensor
 
 # From pyzolib/paths.py (https://bitbucket.org/pyzo/pyzolib/src/tip/paths.py)
-
-
 def appdata_dir(appname=None, roaming=False):
     """ appdata_dir(appname=None, roaming=False)
 
